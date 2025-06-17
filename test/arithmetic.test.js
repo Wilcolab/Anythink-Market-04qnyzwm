@@ -93,7 +93,45 @@ describe('Arithmetic', function () {
         });
     });
 
+    // Additional Addition tests
+    it('adds two floating point numbers', function (done) {
+        request.get('/arithmetic?operation=add&operand1=1.1&operand2=2.2')
+            .expect(200)
+            .end(function (err, res) {
+                expect(res.body).to.eql({ result: 3.3 });
+                done();
+            });
+    });
+
+    it('adds numbers with exponent notation', function (done) {
+        request.get('/arithmetic?operation=add&operand1=1e2&operand2=2e2')
+            .expect(200)
+            .end(function (err, res) {
+                expect(res.body).to.eql({ result: 300 });
+                done();
+            });
+    });
+
+    it('adds numbers with leading plus sign', function (done) {
+        request.get('/arithmetic?operation=add&operand1=+5&operand2=+7')
+            .expect(200)
+            .end(function (err, res) {
+                expect(res.body).to.eql({ result: 12 });
+                done();
+            });
+    });
+
+    it('adds numbers with whitespace trimmed', function (done) {
+        request.get('/arithmetic?operation=add&operand1= 3 &operand2= 4 ')
+            .expect(200)
+            .end(function (err, res) {
+                expect(res.body).to.eql({ result: 7 });
+                done();
+            });
+    });
+
 // TODO: Challenge #1
+
  
 
     describe('Multiplication', function () {
